@@ -1,0 +1,201 @@
+# Changelog
+
+## v0.1.0
+- Fix bug in something
+- Improve documentation
+
+## v0.1.1
+- Initial release
+
+## v0.2.5
+- Add new feature to fetch movie ratings
+- Fix bug in movie search functionality
+- Fix bug in movie search functionality
+- Update dependencies to latest versions
+- Improve error handling for network requests
+- Add support for fetching movie reviews
+
+## v0.2.8
+- Fix bug in movie rating fetching
+- Updated README with json response example
+
+## v0.3.0
+- Add support for movie categories in `MovieDetail.categories`
+- Added `MovieDetail.stars` to get the main cast of the movie, and deprecating `MovieDetail.cast` later
+- FIX: directorsPageTitle out of range
+- Updated README with new features and deprecations notice
+
+## v0.3.1
+- Fix release date formatting to handle missing values gracefully
+- Update models.py to clarify year attribute handling for series
+- Refactor parsers.py to simplify data extraction and improve readability
+
+## v0.3.2
+- Using jmespath to parse json response
+- removing MovieDetail.cast now using MovieDetail.stars instead
+- MovieDetail.directors, kept for backward compatibility
+- MovieDetail.categories['directors'] as List[Person] for directors with additional information
+- MovieDetail.categories['cast'] for characters as List[CastMember] adding information about characters image, url and Role
+- Some fixes in parsers and models to improve type hints and code clarity
+
+## v0.3.3
+- New get_name function to fetch person details by IMDb ID.
+- Fixed some bugs pointed out in issues.
+
+## v0.3.4
+- Added new test cases to increase coverage
+- Improved example scripts for better usability
+- Updated logging levels for enhanced traceability
+- Improved string representation of models (__str__ and __repr__)
+- Various code fixes and optimizations for quality and functionality
+
+## v0.3.5
+- Added support for localized titles (`title_localized`) and alternate titles (`title_akas`) in the `MovieDetail` model and parsing logic.
+- Improved the `CastMember` model with new attributes, including additional cast details (`attributes`).
+- Enhanced certificate parsing to handle region-specific ratings and consolidate them into a structured format.
+- Overhauled documentation in `docs/index.md` with detailed instructions, usage examples, and project highlights.
+- Updated the PyPI downloads badge in `README.md` using `pepy.tech`.
+- Enhanced the test suite for `parse_json_movie` to validate the new certificate parsing and compatibility with updated models.
+- Added the `jekyll-theme-cayman` theme for documentation in `docs/_config.yml`.
+- Updated `pyproject.toml` with the package homepage URL.
+- Added a step in the GitHub Actions workflow (`pypi-publish.yml`) to install dependencies before running tests.
+
+## v0.4.0
+- Added `SeriesMixin` with `is_series()` and `is_episode()` methods to `MovieDetail` and `MovieInfo` for movie kind checking.
+- Introduced `SeriesInfo` and `EpisodeInfo` models for structured series and episode metadata.
+- Added new `EpisodeData` and `EpisodesList` models to represent episodes and collections of episodes.
+- Expanded the README and main documentation to highlight support for series, miniseries, and episodes, with new sections and code examples.
+- Updated and added example scripts (`usage_example.py`, `usage_example_episodes.py`, `all_usage_example.py`) to demonstrate searching, fetching, and displaying information for movies, series, and episodes.
+- Enhanced feature lists in documentation to enumerate new capabilities such as series and episode support, release dates, and international titles.
+- Added user guidance for the new features and pointers to related projects for REST API access.
+
+## v0.4.1
+- Added service `get_all_episodes` to fetch all episodes of a series, all in a row no season, no episode number. Sorted by release_date.
+- Updated README with example for fetching all episodes.
+- Added example script `usage_example_all_episodes.py` to demonstrate fetching all episodes of a series.
+
+## v0.4.2
+- HOT FIX Refactor _release_date function to improve handling of None values
+
+## v0.4.3
+- no functional changes: code clean, refactor clas names for clarity and consistency
+- Refactor movie-related models: `SeriesInfo` -> `InfoSeries`, `EpisodeInfo` `InfoEpisode`. added specialized classes for `TvSeriesDetail` / `TvEpisodeDetail` extending `MovieDetail`
+- Deprecate `get_episodes` function and add warning log for alternative usage
+- Update movie kind identifiers in usage_example.py and models.py for better clarity and consistency, now handling all: tvMovie, short, movie, tvEpisode, tvMiniseries, tvSpecial, tvShort, videoGame, video, musicVideo, podcastEpisode, podcastSeries
+
+## v0.4.4
+- add `get_akas(imdb_id: str) -> List[AkaInfo]` function to fetch alternate titles and AkaInfo model to represent them
+- add caching to services using `functools.lru_cache` for improved performance on repeated requests
+- add `SeasonEpisodesList.series_imdbId`and `SeasonEpisodesList.season_number` to identify the imdbId of the serie and the season number
+- updated DISCLAIMER.txt
+- add services to `__init__.py` for immediate access
+
+## v0.5.0
+- add locale support to services: `search_movie`, `get_movie`, `get_episodes`, `get_all_episodes`, `get_name`, `get_akas`
+
+## v0.5.1
+- fix locale handling in services, errors in `'en'` when no locale provided
+
+## v0.5.2
+- **Company Credits Extraction:** Added support for extracting detailed company credits (distribution, production, sales, special effects, miscellaneous) from IMDb. This includes a new `CompanyInfo` model and updates to the `MovieDetail` model and parser logic to populate `company_credits`
+- **Additional Movie Metadata:** The `MovieDetail` model and parser now include fields for `mpaa` rating, `countries`, and `languages_text`, allowing for richer movie information.
+- **HTTP Library Migration:** Replaced all usages of `requests` with `niquests` for making HTTP requests, including updates in the `Dockerfile`, `services.py`, and documentation.
+- **Locale Handling:** Improved locale management by changing `supported_locales` to a tuple and introducing a normalization function for IMDb IDs.
+- **README and Examples:** Updated the `README.md` and example scripts to showcase new features, including company credits extraction and additional metadata fields. Also clarified usage of `niquests` and improved code samples.
+
+## v0.5.3
+- **Movie Reviews Extraction:** Added new `get_reviews` function to fetch user reviews for any IMDb title, including review text, ratings, author information, and helpfulness votes
+- **Trivia Information Access:** Added new `get_trivia` function to retrieve interesting trivia facts about movies and TV shows, complete with interest scores from the community
+
+## v0.5.4
+- **Bug Fixes and Improvements:** Fixed bug in get_movies for movies without country pr languages
+
+## v0.5.5
+-- **Added get_filmography**
+
+## v0.5.7
+- **Bug Fixes:** Fixed bugs in get_filmography
+
+## v0.5.8
+- Adding new service `get_all_interests` Fetch all interests for a title using the provided IMDb ID.
+    It requires a new request and parsing. Use it only if you really need it and movie.genres is not enough.
+- Update genre retrieval and add interests fetching functionality
+- Add info_series creators list to MovieDetail for series creators
+- FIX unhandled exception for series without episodes (ex. tt35373097)
+
+## v0.6.0
+- Making changes to support new IMDb data structure for `person.credits` , `person.unreleased_credits`, `person.jobs`, `movie.categories`
+
+## v0.6.1
+- Fix tvSeries Creators list parsing bug in MovieDetail for series creators due to new imdb data structure
+- update model field defaults to use Pydantic's Field for mutable types
+
+## v0.6.2
+- New: adding `MovieDetail.awards` to get the awards of the movie
+- Fix: Corrected JSON parsing paths for search results (use `results[].listItem`) to avoid KeyError when IMDb changed the search payload structure.
+- Fix: Handle missing profession data when parsing name results to prevent KeyError and improve robustness against incomplete person entries.
+- Tests: Updated unit tests and `tests/sample_json_source/sample_search.json` to reflect the new JSON structure and to cover missing fields.
+
+## v0.6.3
+- Enhance `MovieBriefInfo` model to include localized title and original title fields
+- Fix update User-Agent string in requests for improved compatibility
+
+## v0.6.4
+- Add TitleType filtering to `search_title` (support for Movies, Series, Episodes, Shorts, Video).
+- Introduce configurable User-Agent rotation (`USER_AGENTS_LIST`) and use random selection for requests.
+- Improve HTTP error handling: exceptions now include HTTP status and response text for easier debugging.
+- Add `rating` to `MovieBriefInfo` and include ratings in search results.
+- Introduce `request_json_url` and a GraphQL helper to centralize requests; expand GraphQL queries to include reviews, trivia and ratings for titles and richer filmography data.
+- Improve locale normalization and URL composition for localized requests.
+- Packaging and CI updates: add optional dependencies groups (`dev`, `build`, `test`) in `pyproject.toml`; add a CI workflow for branch `test` (`.github/workflows/push-test.yml`) mirroring publish/build steps.
+- Tests & examples: add unit tests covering user-agent, error messages and ratings; add example scripts and README updates demonstrating new features.
+- Dockerfile update: set `WORKDIR`, copy source into image and install development extras.
+
+## v0.6.5
+- Fix bug in stars parsing due to imdb data structure change
+
+## v0.6.6
+- Fix bug in directors parsing due to imdb data structure change
+
+## v0.6.7
+- Fix bug in directors parsing: handle locales in Directors Parsing, using objectId instead of Label name
+
+## v0.7.0
+- Deprecating python support for versions below 3.10. Not effective but will be in future releases, we will use features only available in 3.10+.
+
+## v0.7.1
+- Adding Parental Guide information to MovieDetail model. Check README.md for more details.
+- fix parsing on empty storyline_keywords summaries synopses sound_mixes printed_formats negative_formats laboratories colorations cameras aspect_ratios
+- improved directors parsing with CrewV2
+
+## v0.8.0
+- GraphQL-based search and richer search parsing:
+  - search_title now uses the IMDb GraphQL mainSearch endpoint and supports TitleType filtering.
+  - Search results include localized fields, primary images and ratings in the GraphQL shape.
+- Locale & headers:
+  - Added LOCALE_TO_COUNTRY_CODE and _get_country_code_from_locale and improved locale normalization; GraphQL requests set x-imdb-user-country header.
+- Transformers & utilities:
+  - Fixes for None handling in nested lists and other small transformer improvements.
+
+- Tests, examples & samples:
+  - Updated tests to reflect GraphQL-shaped responses and new behaviors.
+  - sample_search.json updated to GraphQL format used by tests.
+  - Formatting and minor fixes across example scripts.
+
+- Misc / Internal:
+  - Logging improvements and small refactors to parsing/service modules.
+  - Backwards-compatible fallbacks retained where possible.
+  
+## v0.8.1
+- Fix AWS WAF blocking
+
+## v0.8.2
+ - improving WAF cookie generation and re-usability to avoid blocks and improve performance. Now cookies are generated once per session and reused for subsequent requests, with automatic regeneration if a block is detected. This should significantly reduce the likelihood of encountering AWS WAF blocks while maintaining efficient request handling.
+ - Added logging for cookie generation and block detection to aid in debugging and monitoring of WAF interactions.
+ - Adding custom exception `WAFBlockException` to handle AWS WAF blocks more gracefully in the codebase. This allows for clearer error handling and potential retry logic in the future if desired.
+ - Adding cookies cache to store generated cookies for reuse across requests, improving performance and reducing the likelihood of encountering AWS WAF blocks
+ - Adding test cases to validate the new cookie generation and caching logic
+
+## v0.8.3
+  Fix bug in movie.year parsing
+  Fix bug person.knownfor parsing
